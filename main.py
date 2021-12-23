@@ -7,6 +7,7 @@
 
 import lyricsgenius as lg
 import os
+from spotify import getTrack
 
 cwd = os.getcwd()
 path = cwd + "\\auto_.txt"
@@ -33,7 +34,16 @@ def get_lyrics(arr, k):
             print(f"some exception at {name}: {c}")
     return dico_lyrics
 
-
+"""
 artists = ['Blacks eyed pease', 'Rihanna','Jean Jacques Goldman']
 dico_lyrics = get_lyrics(artists, 2)
 print(dico_lyrics)
+"""
+
+playlist_id_fr = '2IgPkhcHbgQ4s4PdCxljAx'
+top_france_2021_fr = getTrack(playlist_id_fr)
+print(top_france_2021_fr)
+
+playlist_id_en = '37i9dQZF1DXddEJk8r6QZZ'
+top_france_2021_en = getTrack(playlist_id_en)
+print(top_france_2021_en)

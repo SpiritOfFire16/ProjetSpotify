@@ -1,23 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Dec 23 16:00:36 2021
+@author: ANGUILLA Manon - DAGIER Mathieu
 
-@author: manon
 """
 
 import spotipy
-import spotipy.oauth2 as oauth2
-from spotipy.oauth2 import SpotifyOAuth
 from spotipy.oauth2 import SpotifyClientCredentials
 import pandas as pd
 import time
 
 cid = "6e40d19100904d7ca8a486798c29a2cd"
 csecret = "e23dfd52e41a4eb0b056d7100950960a"
-
-myauth = SpotifyClientCredentials(client_id = cid, client_secret = csecret) 
-sp = spotipy.Spotify(auth_manager=myauth)
-
 
 def getTrackIDs(sp, user, playlist_id):
     track_ids = []
@@ -26,10 +19,6 @@ def getTrackIDs(sp, user, playlist_id):
         track = item['track']
         track_ids.append(track['id'])
     return track_ids
-
-#track_ids = getTrackIDs('spotify', '2IgPkhcHbgQ4s4PdCxljAx')
-#print(len(track_ids))
-#print(track_ids)
 
 def getTrackFeatures(sp, id):
     track_info = sp.track(id)
@@ -43,14 +32,11 @@ def getTrack(playlist_id):
     myauth = SpotifyClientCredentials(client_id=cid, client_secret=csecret)
     sp = spotipy.Spotify(auth_manager = myauth)
     track_ids = getTrackIDs(sp, 'spotify', playlist_id)    
-    track_list = []
+    track_dico = {}
     for id_track in track_ids:
         time.sleep(0.3)
         track_data = getTrackFeatures(sp, id_track)
-        track_list.append(track_data)
-    return pd.DataFrame(track_list, columns=['Nom','Artiste(s)','Date de publication'])
-
-#top_france_2021 = pd.DataFrame(track_list, columns = ['Nom', 'Artiste', 'Date de sortie'])
-#print(top_france_2021)
+        track_dico[track_data[0]] = track_data[1:]
+    return track_dico
 
 

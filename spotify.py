@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Dec 23 16:00:36 2021
+@author: ANGUILLA Manon - DAGIER Mathieu
 
-@author: manon
 """
 
 import spotipy
-import spotipy.oauth2 as oauth2
-from spotipy.oauth2 import SpotifyOAuth
 from spotipy.oauth2 import SpotifyClientCredentials
 import pandas as pd
 import time

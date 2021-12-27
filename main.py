@@ -5,13 +5,23 @@
 """
 
 import os
+#import pickle
 
 from spotify import getTrack
 from genius_lyrics import getLyrics
 
-cwd = os.getcwd()
-path = cwd + "\\auto_.txt"
-file = open(path, "w")
+#cwd = os.getcwd()
+#path = cwd + "\\save_Corpus.pkl"
+#with open(path, 'wb') as outp:
+#    pickle.dump(corpus, outp, pickle.HIGHEST_PROTOCOL)
+#    print("\nSauvegarde du corpus dans un fichier")
+
+#with open(path, 'rb') as inp:
+#    c = pickle.load(inp)
+#    print("Chargement du corpus en mémoire depuis un fichier")
+
+
+
 
 
 playlist_id_fr = '2IgPkhcHbgQ4s4PdCxljAx'

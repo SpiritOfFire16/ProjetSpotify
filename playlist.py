@@ -5,6 +5,23 @@
 """
 
 from chanson import Chanson
+import pickle
+
+class ManagerPlaylist():
+    def __init__(self, path):
+        self.__path = path
+    
+    def save(self, playlist):
+        with open(self.__path, 'wb') as outp:
+            pickle.dump(playlist, outp, pickle.HIGHEST_PROTOCOL)
+            print(f"Sauvegarde de la playlist dans le fichier {self.__path}")
+            
+    def load(self):
+        with open(self.__path, 'rb') as inp:
+            playlist = pickle.load(inp)
+            print(f"Chargement de la playlist depuis le fichier {self.__path}")
+        return playlist
+
 
 class Playlist():
     
@@ -30,6 +47,6 @@ class Playlist():
             
     def __str__(self):
         chansons = ""
-        for k in self.__liste_chansons.keys():
-            chansons += "- " + k + "\n"
+        for k,v in self.__liste_chansons.items():
+            chansons += str(v) + "\n"
         return f"Nombre de chansons : {self.__nb_chansons}\n{chansons}"

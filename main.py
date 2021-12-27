@@ -5,23 +5,12 @@
 """
 
 import os
-#import pickle
 
 from spotify import getTrack
 from genius_lyrics import getLyrics
 
-#cwd = os.getcwd()
-#path = cwd + "\\save_Corpus.pkl"
-#with open(path, 'wb') as outp:
-#    pickle.dump(corpus, outp, pickle.HIGHEST_PROTOCOL)
-#    print("\nSauvegarde du corpus dans un fichier")
 
-#with open(path, 'rb') as inp:
-#    c = pickle.load(inp)
-#    print("Chargement du corpus en mémoire depuis un fichier")
-
-
-
+"""
 from deep_translator import GoogleTranslator
 import string
 import re
@@ -43,38 +32,53 @@ def nettoyer_texte(chaine):
     #chaine = GoogleTranslator(source='auto', target='fr').translate(chaine)    
     #return chaine
     return chaine
+"""
 
+from chanson import ChansonGenerator
+from playlist import ManagerPlaylist, Playlist
 
-
-playlist_id_fr = '2IgPkhcHbgQ4s4PdCxljAx'
-top_france_2021_fr = getTrack(playlist_id_fr)
-#print(top_france_2021_fr)
-
-#playlist_id_en = '37i9dQZF1DXddEJk8r6QZZ'
-#top_france_2021_en = getTrack(playlist_id_en)
-#print(top_france_2021_en)
-
-
-
-
-from chanson import ChansonGenerator,Chanson,ChansonFR,ChansonEN
-from playlist import Playlist
 import sys
 
-dico_lyrics = getLyrics(top_france_2021_fr)
-playlist_2021_fr = Playlist()
+def create_playlist(dico_lyrics, langue, nb_chanson_max):
+    playlist = Playlist()
+    for k,v in dico_lyrics.items():
+        if playlist.get_nb_chansons() == nb_chanson_max:
+            break
+        try:
+            chanson_ = ChansonGenerator.factory(langue,k,v[0],v[1],v[2])
+            print(chanson_)
+            if chanson_ != None:
+                playlist.add_chanson(chanson_)
+        except:
+           print(f"Pas de parole pour la chanson {k}")
+    return playlist
 
-for k,v in dico_lyrics.items():
-    if playlist_2021_fr.get_nb_chansons() == 20:
-        break
-    try:
-        #print(nettoyer_texte(v[2]))
-        chanson_fr = ChansonGenerator.factory("fr",k,v[0],v[1],v[2])
-        if chanson_fr != None:
-            playlist_2021_fr.add_chanson(chanson_fr)
-    except:
-        print("Erreur : " + sys.exc_info()[0])
-        print(f"Pas de parole pour la chanson {k}")
-        
-print(playlist_2021_fr)
+
+def main():
+    cwd = os.getcwd()
+    path_fr = cwd + "\\save_playlist_fr.pkl"
+    path_en = cwd + "\\save_playlist_en.pkl"
+    
+    print("==================PLAYLIST FRANCAISE==================")
+    #playlist_id_fr = '2IgPkhcHbgQ4s4PdCxljAx'
+    playlist_id_fr = '37i9dQZF1DXddEJk8r6QZZ'
+    top_france_2021_fr = getTrack(playlist_id_fr)
+    dico_2021_lyrics_fr = getLyrics(top_france_2021_fr)
+    playlist_2021_fr = create_playlist(dico_2021_lyrics_fr, "fr", 2)
+    manager_fr = ManagerPlaylist(path_fr)
+    manager_fr.save(playlist_2021_fr)
+    
+    print("==================PLAYLIST ANGLAISE==================")
+    playlist_id_en = '2nQ3mO98FmU4wSKtiBU7p5'
+    top_france_2021_en = getTrack(playlist_id_en)
+    dico_2021_lyrics_en = getLyrics(top_france_2021_en)
+    playlist_2021_en = create_playlist(dico_2021_lyrics_en, "en", 2)
+    manager_en = ManagerPlaylist(path_en)
+    manager_en.save(playlist_2021_en)
+    
+
+    
+if __name__ == "__main__":
+    main()
+
 

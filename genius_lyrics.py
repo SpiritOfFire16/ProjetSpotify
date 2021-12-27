@@ -17,14 +17,17 @@ def getLyric(name, artist):
 
 def getLyrics(dico):
     genius = lg.Genius(client_access_token, skip_non_songs=True, excluded_terms=["(Remix)", "(Live)"], remove_section_headers=True)
-    dico_lyrics = {}
+    i = 0
     for k in dico.keys():
+        if i == 10:
+            break
         try:
             name = k
             artist = dico[k][0]
             lyric = ""
             lyric += searchLyric(genius, name, artist).lyrics
             dico[k].append(lyric)
+            i = i+1
             #print(f"Songs grabbed:{len(song)}")
         except:
             print(f"some exception at {name}: {k}")

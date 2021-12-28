@@ -14,18 +14,21 @@ class ChansonGenerator:
             return None
         elif paroles.count("-") >= len(paroles.split("\n")):
             return None
+        elif "feat" in paroles:
+            return None
         else:
             paroles = paroles.lower()
             paroles = re.sub("[a-z0-9]*embed[a-z0-9]*","",paroles)
             paroles = re.sub("urlcopopy|off1hare","",paroles)
             return GoogleTranslator(source='auto', target=langue).translate(paroles)
-
+        
     @staticmethod
     def factory(langue, titre="", artiste=None, date="", paroles=""):
         if langue == "fr":
             paroles_traduites = ChansonGenerator.translate(langue, paroles)
             if paroles_traduites == None:
                 return None
+            print(paroles)
             print("=======Une chanson francaise retournée=======")
             return ChansonFR(titre, artiste, date, paroles_traduites)
         elif langue == "en":

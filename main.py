@@ -49,7 +49,7 @@ def create_playlist(dico_lyrics, langue, nb_chanson_max):
             if chanson_ != None:
                 playlist.add_chanson(chanson_)
         except:
-           print(f"Pas de parole pour la chanson {k}")
+            print(f"Pas de parole pour la chanson {k}")
     return playlist
 
 
@@ -63,7 +63,7 @@ def main():
     playlist_id_fr = '37i9dQZF1DXddEJk8r6QZZ'
     top_france_2021_fr = getTrack(playlist_id_fr)
     dico_2021_lyrics_fr = getLyrics(top_france_2021_fr)
-    playlist_2021_fr = create_playlist(dico_2021_lyrics_fr, "fr", len(dico_2021_lyrics_fr.keys()))
+    playlist_2021_fr = create_playlist(dico_2021_lyrics_fr, "en", len(dico_2021_lyrics_fr.keys()))
     manager_fr = ManagerPlaylist(path_fr)
     manager_fr.save(playlist_2021_fr)
     

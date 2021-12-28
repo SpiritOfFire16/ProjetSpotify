@@ -19,7 +19,7 @@ def getLyrics(dico):
     genius = lg.Genius(client_access_token, skip_non_songs=True, excluded_terms=["(Remix)", "(Live)"], remove_section_headers=True)
     i = 0
     for k in dico.keys():
-        if i == 10:
+        if i == 50:
             break
         try:
             name = k

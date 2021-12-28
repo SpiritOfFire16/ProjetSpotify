@@ -25,9 +25,9 @@ class ManagerPlaylist():
 
 class Playlist():
     
-    def __init__(self, liste_chansons={}):
-        self.__liste_chansons = liste_chansons
-        self.__nb_chansons = len(liste_chansons)
+    def __init__(self):
+        self.__liste_chansons = {}
+        self.__nb_chansons = 0
         
     def get_nb_chansons(self):
         return self.__nb_chansons

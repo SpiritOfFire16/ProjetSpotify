@@ -46,7 +46,6 @@ def create_playlist(dico_lyrics, langue, nb_chanson_max):
             break
         try:
             chanson_ = ChansonGenerator.factory(langue,k,v[0],v[1],v[2])
-            print(chanson_)
             if chanson_ != None:
                 playlist.add_chanson(chanson_)
         except:
@@ -64,7 +63,7 @@ def main():
     playlist_id_fr = '37i9dQZF1DXddEJk8r6QZZ'
     top_france_2021_fr = getTrack(playlist_id_fr)
     dico_2021_lyrics_fr = getLyrics(top_france_2021_fr)
-    playlist_2021_fr = create_playlist(dico_2021_lyrics_fr, "fr", 2)
+    playlist_2021_fr = create_playlist(dico_2021_lyrics_fr, "fr", len(dico_2021_lyrics_fr.keys()))
     manager_fr = ManagerPlaylist(path_fr)
     manager_fr.save(playlist_2021_fr)
     
@@ -72,7 +71,7 @@ def main():
     playlist_id_en = '2nQ3mO98FmU4wSKtiBU7p5'
     top_france_2021_en = getTrack(playlist_id_en)
     dico_2021_lyrics_en = getLyrics(top_france_2021_en)
-    playlist_2021_en = create_playlist(dico_2021_lyrics_en, "en", 2)
+    playlist_2021_en = create_playlist(dico_2021_lyrics_en, "en", len(dico_2021_lyrics_en.keys()))
     manager_en = ManagerPlaylist(path_en)
     manager_en.save(playlist_2021_en)
     

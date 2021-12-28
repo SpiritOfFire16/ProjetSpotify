@@ -81,7 +81,7 @@ class ChansonFR(Chanson):
         self.__langue = "FR"
         
     def get_paroles(self):
-        return super().__paroles
+        return super().get_paroles()
     
     def __str__(self):
         return f"{super().__str__()}Langue : {self.__langue}\n" 
@@ -93,7 +93,7 @@ class ChansonEN(Chanson):
         self.__langue = "EN"
         
     def get_paroles(self):
-        return super().__paroles
+        return super().get_paroles()
     
     def __str__(self):
         return f"{super().__str__()}Langue : {self.__langue}\n" 

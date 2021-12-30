@@ -42,10 +42,13 @@ class Traitement():
                         occurrences_mots[mot][titre] = occurrences_mots[mot][titre]+1
         
         correspondances = pd.DataFrame(0, columns = occurrences_mots.keys(), index = ["chanson " + x for x in list(titres)])
+        aretes = pd.DataFrame(columns=["Titre_chanson","Mot","Nb_occurences"])
         for mot,dico in occurrences_mots.items():
             for titre,nb_occurrence in dico.items():
                 correspondances.loc["chanson " + titre, mot] = nb_occurrence
+                aretes = aretes.append({"Titre_chanson":titre,"Mot":mot,"Nb_occurences":nb_occurrence}, ignore_index=True)
         #print(len(occurrences_mots.keys()))
         print(correspondances)
+        return aretes
         
             

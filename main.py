@@ -15,7 +15,7 @@ from playlist import ManagerPlaylist, Playlist
 
 from traitement import Traitement
 
-
+from graphe import Graphe_Coocurence
 
 def create_playlist(dico_lyrics, langue, nb_chanson_max):
     playlist = Playlist()
@@ -29,6 +29,17 @@ def create_playlist(dico_lyrics, langue, nb_chanson_max):
         except:
             print(f"Pas de parole pour la chanson {k}")
     return playlist
+
+def charger_chansons(playlist, maximum):
+    playlist_chargee = Playlist()
+    i = 0
+    for chanson in playlist.get_chansons().values():
+        if i == maximum:
+            break
+        else:
+            playlist_chargee.add_chanson(chanson)
+            i = i+1
+    return playlist_chargee
 
 
 def main():
@@ -55,20 +66,22 @@ def main():
     manager_en.save(playlist_2021_en)
     """
     
-    playlist_2021_fr_top_30 = manager_fr.load()
+    x = 10
+    playlist_2021_fr = manager_fr.load()
+    playlist_2021_fr_top_x = charger_chansons(playlist_2021_fr, x)
     playlist_2021_en = manager_en.load()
-    playlist_2021_en_top_30 = Playlist()
-    i = 0
-    for chanson in playlist_2021_en.get_chansons().values():
-        if i == 30:
-            break
-        else:
-            playlist_2021_en_top_30.add_chanson(chanson)
-            i = i+1
-        
-    Traitement.cooccurrences(playlist_2021_fr_top_30)
-    Traitement.cooccurrences(playlist_2021_en_top_30)
-
+    playlist_2021_en_top_x = charger_chansons(playlist_2021_en, x)
+    
+    print("\n=====OCCURENCES DES MOTS DANS LES CHANSONS=====")
+    print(f"=>TOP {x} des chansons de la PLaylist Française")
+    aretes_fr = Traitement.cooccurrences(playlist_2021_fr_top_x)
+    print(f"\n\n=>TOP {x} des chansons de la PLaylist Anglaise")
+    aretes_en = Traitement.cooccurrences(playlist_2021_en_top_x)
+    
+    graphe_fr = Graphe_Coocurence(aretes_fr)
+    graphe_fr.affichage("chansons_fr.html")
+    graphe_en = Graphe_Coocurence(aretes_en)
+    graphe_en.affichage("chansons_en.html")
     
 if __name__ == "__main__":
     main()

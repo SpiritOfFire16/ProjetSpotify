@@ -16,6 +16,8 @@ class ChansonGenerator:
             return None
         elif "feat" in paroles:
             return None
+        elif len(paroles.split(" ")) < 100:
+            return None
         else:
             paroles = paroles.lower()
             paroles = re.sub("[a-z0-9]*embed[a-z0-9]*","",paroles)

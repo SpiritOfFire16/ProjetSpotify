@@ -17,6 +17,7 @@ from traitement import Traitement
 
 from graphe import Graphe_Coocurence
 
+
 def create_playlist(dico_lyrics, langue, nb_chanson_max):
     playlist = Playlist()
     for k,v in dico_lyrics.items():
@@ -41,7 +42,20 @@ def charger_chansons(playlist, maximum):
             i = i+1
     return playlist_chargee
 
-
+def affichage_regles(x):
+    print("\n\n --------------------------------------------------------------------")
+    print("|                              IMPORTANT A LIRE                      |")
+    print("--------------------------------------------------------------------\n")
+    print("Langue = fr ou en")
+    print("Terme1, Terme2, ... = Titre d'une chanson ou d'un mot d'une chanson")
+    print("Si Terme1 = Titre d'une chanson : alors on affiche le graphe de cette chanson")
+    print("Si Terme1 = Mot d'une chanson, alors on affiche le graphe des chansons contenant ce mot")
+    print("Si un des termes = ALL SONGS alors on affiche le graphe contenant le top {x} des chansons")
+    print("Exemples de commandes :")
+    print(f"<langue/ALL SONGS> permet d'afficher le graphe contenant le top {x} des chansons françaises traduites en anglais")
+    print(f"<langue/Terme1/Terme2/... permet d'afficher le graphe contenant les titres des chansons souhaitées")
+    print("-1 pour quitter le programme")
+    
 def main():
     cwd = os.getcwd()
     path_fr = cwd + "\\save_playlist_fr.pkl"
@@ -73,15 +87,55 @@ def main():
     playlist_2021_en_top_x = charger_chansons(playlist_2021_en, x)
     
     print("\n=====OCCURENCES DES MOTS DANS LES CHANSONS=====")
+    couleurs_fr = Traitement.choisir_couleurs(playlist_2021_fr_top_x.get_chansons().keys())
+    couleurs_en = Traitement.choisir_couleurs(playlist_2021_en_top_x.get_chansons().keys())
     print(f"=>TOP {x} des chansons de la PLaylist Française")
     aretes_fr = Traitement.cooccurrences(playlist_2021_fr_top_x)
     print(f"\n\n=>TOP {x} des chansons de la PLaylist Anglaise")
     aretes_en = Traitement.cooccurrences(playlist_2021_en_top_x)
     
-    graphe_fr = Graphe_Coocurence(aretes_fr)
-    graphe_fr.affichage("chansons_fr.html")
-    graphe_en = Graphe_Coocurence(aretes_en)
-    graphe_en.affichage("chansons_en.html")
+    graphe_fr = Graphe_Coocurence(aretes_fr, couleurs_fr)
+    graphe_en = Graphe_Coocurence(aretes_en, couleurs_en)
+    
+    requete = ""
+    affichage_regles(x)
+    while(requete != "-1"):
+        requete = input("Entrez le nom d'un noeud : ")
+        if requete != "-1":
+            mots_cles = requete.split("/")
+            if mots_cles[0] == "fr":
+                if "ALL SONGS" in mots_cles:
+                    graphe_fr.affichage("chansons_fr.html")
+                    while "ALL SONGS" in mots_cles:
+                        mots_cles.remove("ALL SONGS")
+                if len(mots_cles) > 1:
+                    playlist = manager_fr.creer_playlist(mots_cles[1:], playlist_2021_fr_top_x, graphe_fr)
+                    if playlist.get_nb_chansons() > 0:                        
+                        aretes = Traitement.cooccurrences(playlist)
+                        graphe = Graphe_Coocurence(aretes, couleurs_fr)
+                        mots_cles = "_".join(mots_cles)
+                        graphe.affichage(f"chansons_{mots_cles}.html")
+                    else:
+                        print("Erreur mots non trouvés")
+            
+            elif mots_cles[0] == "en":
+                if "ALL SONGS" in mots_cles:
+                    graphe_en.affichage("chansons_en.html")
+                    while "ALL SONGS" in mots_cles:
+                        mots_cles.remove("ALL SONGS")
+                if len(mots_cles) > 1:
+                    playlist = manager_en.creer_playlist(mots_cles[1:], playlist_2021_en_top_x, graphe_en)
+                    if playlist.get_nb_chansons() > 0:
+                        aretes = Traitement.cooccurrences(playlist)
+                        graphe = Graphe_Coocurence(aretes, couleurs_en)
+                        mots_cles = "_".join(mots_cles)
+                        graphe.affichage(f"chansons_{mots_cles}.html")
+                    else:
+                        print("Erreur mots non trouvés")
+            else:
+                print("Erreur langue non detectée.")
+        else:
+            print("Programme terminé.")
     
 if __name__ == "__main__":
     main()

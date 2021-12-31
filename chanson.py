@@ -30,15 +30,14 @@ class ChansonGenerator:
             paroles_traduites = ChansonGenerator.translate(langue, paroles)
             if paroles_traduites == None:
                 return None
-            print(paroles)
             print("=======Une chanson francaise retournée=======")
-            return ChansonFR(titre, artiste, date, paroles_traduites)
+            return ChansonFR(titre.upper(), artiste, date, paroles_traduites)
         elif langue == "en":
             paroles_traduites = ChansonGenerator.translate(langue, paroles)
             if paroles_traduites == None:
                 return None
             print("=======Une chanson anglaise retournée=======")
-            return ChansonEN(titre, artiste, date, paroles_traduites)
+            return ChansonEN(titre.upper(), artiste, date, paroles_traduites)
         else:
             assert 0, "Erreur : langue = " + langue
 

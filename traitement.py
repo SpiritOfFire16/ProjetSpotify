@@ -9,6 +9,10 @@ import re
 
 import pandas as pd
 
+import random
+from couleur import Couleur
+
+
 class Traitement():
     
     @staticmethod
@@ -24,11 +28,27 @@ class Traitement():
         
         return stripped
 
+
+    @staticmethod
+    def choisir_couleurs(titres):
+        randomlist = []
+        titres_couleurs = {}
+        for t in titres:
+            t = t.upper()
+            n = random.randint(1,Couleur.get_nb_couleurs())
+            while n in randomlist:
+                n = random.randint(1, Couleur.get_nb_couleurs())
+            randomlist.append(n)
+            titres_couleurs[t] = Couleur.get_couleur(n)
+        return titres_couleurs
+
+
     @staticmethod
     def cooccurrences(playlist):
         occurrences_mots = {}
         titres = set()
         for titre,chanson in playlist.get_chansons().items():
+            titre = titre.upper()
             titres.add(titre)
             paroles = chanson.get_paroles()
             paroles = Traitement.nettoyage(paroles)

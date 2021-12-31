@@ -5,6 +5,7 @@
 """
 
 from chanson import Chanson
+from graphe import Graphe_Coocurence
 import pickle
 
 class ManagerPlaylist():
@@ -21,6 +22,21 @@ class ManagerPlaylist():
             playlist = pickle.load(inp)
             print(f"Chargement de la playlist depuis le fichier {self.__path}")
         return playlist
+    
+    def creer_playlist(self, mots_cles, playlist, graphe):
+        p = Playlist()
+        chansons = playlist.get_chansons()
+        for mot in mots_cles:
+            if mot in chansons:
+                p.add_chanson(chansons[mot])
+            else:
+                try:
+                    titres = graphe.get_titres_chanson(mot)
+                    for titre in titres:
+                        p.add_chanson(chansons[titre])
+                except:
+                     print("Erreur noeud inexistant")
+        return p
 
 
 class Playlist():

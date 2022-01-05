@@ -46,47 +46,47 @@ def affichage_regles():
     print("\n\n --------------------------------------------------------------------")
     print("|                              IMPORTANT A LIRE                      |")
     print("--------------------------------------------------------------------\n")
-    print("Il existe 6 types de commandes possible :")
+    print("Il existe 6 types de commandes possibles :")
     print("COMMANDE 1 : menu")
-    print("Permet d'afficher les informations concernant les différentes commandes réalisable.")
+    print("Permet d'afficher les informations concernant les différentes commandes réalisables.")
     print("")
-    print("COMMANDE 2 : graph")
-    print("Ecrivez : graph/<langue>/<terme1>...")
+    print("COMMANDE 2 : graphe")
+    print("Ecrivez : graphe/<langue>/<terme1>...")
     print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
-    print("Avec : <terme1> pouvant prendre les valeurs :")
-    print(" -> ALL SONGS : afin d'afficher le graphe formé de tout les mots présents dans les chansons de la playlist")
-    print(" -> Le titre d'une chanson : afin d'afficher le graphe formé de tout les mots de la chanson")
-    print(" -> Un mot : afin d'afficher le graphe formé de tout les mot des chansons qui contiennent le mot choisit")
-    print("Remarque : Il est possible d'ajouter plusieur <termes> les uns à la suite des autre, par exemple on peut ecrire :")
-    print(" graph/en/ALL SONGS/love/hey")
+    print("Avec : <terme1> pouvant prendre les valeurs suivantes :")
+    print(" -> ALL SONGS : afin d'afficher le graphe formé de tous les mots présents dans les chansons de la playlist")
+    print(" -> Le titre d'une chanson : afin d'afficher le graphe formé de tous les mots de la chanson")
+    print(" -> Un mot : afin d'afficher le graphe formé de tous les mot des chansons qui contiennent le mot choisi")
+    print("Remarque : Il est possible d'ajouter plusieurs <termes> les uns à la suite des autres, par exemple on peut ecrire :")
+    print(" graphe/en/ALL SONGS/love/hey")
     print("")
     print("COMMANDE 3 : occ")
     print("Ecrivez : occ/<langue>/<terme1>...")
     print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
-    print("Avec : <terme1> pouvant prendre les valeurs :")
-    print(" -> ALL WORDS : afin d'afficher l'ensemble des mots presents dans la playlist choisit avec les titres des chansons dans lesquelles ils apparaissent ainsi que leur nombre d'occurence par chanson.")
-    print(" -> Un mot : afin d'afficher les titres des chansons dans lesquelles il apparait ainsi que son nombre d'occurence par chanson. ")
-    print("Remarque : Il est possible d'ajouter plusieur <termes> les uns à la suite des autre, par exemple on peut ecrire :")
+    print("Avec : <terme1> pouvant prendre les valeurs suivantes :")
+    print(" -> ALL WORDS : afin d'afficher l'ensemble des mots presents dans la playlist choisie avec les titres des chansons dans lesquels ils apparaissent ainsi que leurs nombres d'occurrences par chanson.")
+    print(" -> Un mot : afin d'afficher les titres des chansons dans lesquelles il apparait ainsi que son nombre d'occurences par chanson. ")
+    print("Remarque : Il est possible d'ajouter plusieurs <termes> les uns à la suite des autre, par exemple on peut ecrire :")
     print(" occ/fr/many/money/beautiful")
     print("")
     print("COMMANDE 4 : sup, inf et supinf")
     print("Ecrivez : sup/<langue>/<nombre>")
     print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
-    print("Avec : <nombre> devant prendre les valeurs d'un entier positif strictement")
-    print("Cette commande affiche l'ensemble des mot de la playlist choisie dont le nombre d'occurences est supérieur ou égale au nombre donné par l'utilisateur")
+    print("Avec : <nombre> devant prendre les valeurs d'un entier strictement positif")
+    print("Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est supérieur ou égal au nombre donné par l'utilisateur")
     print("Ecrivez : inf/<langue>/<nombre>")
     print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
-    print("Avec : <nombre> devant prendre les valeurs d'un entier positif strictement")
-    print("Cette commande affiche l'ensemble des mot de la playlist choisie dont le nombre d'occurences est inférieur ou égale au nombre donné par l'utilisateur")
+    print("Avec : <nombre> devant prendre les valeurs d'un entier strictement positif")
+    print("Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est inférieur ou égal au nombre donné par l'utilisateur")
     print("Ecrivez : supinf/<langue>/<nombre1>/<nombre2>")
     print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
-    print("Avec : <nombre1> (borne inférieure) et <nombre2> (borne supérieure) devant prendre les valeurs d'un entier positif strictement")
-    print("Cette commande affiche l'ensemble des mot de la playlist choisie dont le nombre d'occurences est supérieur ou égale à <nombre1> et est inférieur ou égale à <nombre2> donné par l'utilisateur")
+    print("Avec : <nombre1> (borne inférieure) et <nombre2> (borne supérieure) devant prendre les valeurs d'un entier strictement positif")
+    print("Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est supérieur ou égal à <nombre1> et est inférieur ou égal à <nombre2> donné par l'utilisateur")
     print("")
     print("COMMANDE 5 : top")
     print("Ecrivez : top/<langue>/<nombre>")
     print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
-    print("Avec : <nombre> devant prendre les valeurs d'un entier positif strictement")
+    print("Avec : <nombre> devant prendre les valeurs d'un entier strictement positif")
     print("Cette commande affiche le top x des mot de la playlist choisie, avec x correspondant à <nombre> donné par l'utilisateur")
     print("")
     print("COMMANDE 6 : -1")
@@ -116,14 +116,14 @@ def nb_occurences_mots(mots_cles, correspondances):
                 sous_df = correspondances[correspondances[mot] > 0]
                 chansons = sous_df.index
                 if len(chansons) == 1 :
-                    print(f"Le mot {mot} est contenue dans la chanson :")
+                    print(f"Le mot {mot} est contenu dans la chanson :")
                 else:
-                    print(f"Le mot {mot} est contenue dans les chansons :")
+                    print(f"Le mot {mot} est contenu dans les chansons :")
                 for titre in chansons:
                     t = titre[len("chanson "):]
                     occ = sous_df.loc[titre][mot]
                     print(f"{t} : {occ} fois ")
-                print(f"Nombre total d'occurences : {total}\n")
+                print(f"Nombre total d'occurrences : {total}\n")
             while "ALL WORDS" in mots_cles:
                 mots_cles.remove("ALL WORDS")
         
@@ -133,16 +133,16 @@ def nb_occurences_mots(mots_cles, correspondances):
                 sous_df = correspondances[correspondances[mot] > 0]
                 chansons = sous_df.index
                 if len(chansons) == 1 :
-                    print(f"Le mot {mot} est contenue dans la chanson :")
+                    print(f"Le mot {mot} est contenu dans la chanson :")
                 else:
-                    print(f"Le mot {mot} est contenue dans les chansons :")
+                    print(f"Le mot {mot} est contenu dans les chansons :")
                 for titre in chansons:
                     t = titre[len("chanson "):]
                     occ = sous_df.loc[titre][mot]
                     print(f"{t} : {occ} fois ")
-                print(f"Nombre total d'occurences : {total}\n")
+                print(f"Nombre total d'occurrences : {total}\n")
             else:
-                print(f"Le mot {mot} n'est pas contenue dans la playlist")
+                print(f"Le mot {mot} n'est pas contenu dans la playlist")
     else:
         print("Erreur, vous devez specifier un terme")
         
@@ -154,7 +154,7 @@ def inf_mots(mots_cles, correspondances):
             try:
                 maximum = int(mots_cles[0])
                 if maximum <= 0:
-                    print("Erreur, le nombre maximum d'occurence doit être un entier supérieur ou égale à 1")
+                    print("Erreur, le nombre maximum d'occurrences doit être un entier supérieur ou égal à 1")
                     return
                 cpt = 0
                 for k,v in dico.items():
@@ -164,13 +164,13 @@ def inf_mots(mots_cles, correspondances):
                     else:
                         break
                 if cpt == 0:
-                    print("Pas de mot trouvé pour ce nombre maximum d'occurences")
+                    print("Pas de mot trouvé pour ce nombre maximum d'occurrences")
             except:
-                print("Vous devez indiquer un nombre d'occurence maximum")
+                print("Vous devez indiquer un nombre d'occurrences maximum")
         else:
-            print("Vous devez seulement indiquer un nombre d'occurence maximum")
+            print("Vous devez seulement indiquer un nombre d'occurrences maximum")
     else:
-        print("Vous devez indiquer un nombre d'occurence maximal à rechercher")
+        print("Vous devez indiquer un nombre d'occurrences maximal à rechercher")
             
 def sup_mots(mots_cles, correspondances):
     dico = Traitement.tri_mots_decroissant(correspondances)
@@ -179,7 +179,7 @@ def sup_mots(mots_cles, correspondances):
             try:
                 minimum = int(mots_cles[0])
                 if minimum <= 0:
-                    print("Erreur, le nombre minimum d'occurence doit être un entier supérieur ou égale à 1")
+                    print("Erreur, le nombre minimum d'occurrences doit être un entier supérieur ou égal à 1")
                     return
                 cpt = 0
                 for k,v in dico.items():
@@ -189,13 +189,13 @@ def sup_mots(mots_cles, correspondances):
                     else:
                         break
                 if cpt == 0:
-                    print("Pas de mot trouvé pour ce nombre minimum d'occurences")
+                    print("Pas de mot trouvé pour ce nombre minimum d'occurrences")
             except:
-                print("Vous devez indiquer un nombre d'occurence minimum")
+                print("Vous devez indiquer un nombre d'occurrences minimum")
         else:
-            print("Vous devez seulement indiquer un nombre d'occurence minimum")
+            print("Vous devez seulement indiquer un nombre d'occurrences minimum")
     else:
-        print("Vous devez indiquer un nombre d'occurence minimal à rechercher")
+        print("Vous devez indiquer un nombre d'occurrences minimal à rechercher")
 
 def supinf_mots(mots_cles, correspondances):
     dico = Traitement.tri_mots_croissant(correspondances)
@@ -206,7 +206,7 @@ def supinf_mots(mots_cles, correspondances):
                     minimum = int(mots_cles[0])
                     maximum = int(mots_cles[1])
                     if minimum <= 0:
-                        print("Erreur, le nombre minimum d'occurence doit être un entier supérieur ou égale à 1")
+                        print("Erreur, le nombre minimum d'occurrences doit être un entier supérieur ou égal à 1")
                         return
                     cpt = 0
                     for k,v in dico.items():
@@ -216,15 +216,15 @@ def supinf_mots(mots_cles, correspondances):
                         if v > maximum:
                             break
                     if cpt == 0:
-                        print("Pas de mot trouvé pour ces nombres minimum et maximum d'occurences")
+                        print("Pas de mot trouvé pour ces nombres minimum et maximum d'occurrences")
                 else:
                     print("Erreur la valeur minimale doit être inférieure ou égale à la valeur maximale")
             except:
-                print("Vous devez indiquer un nombre d'occurence minimum et maximum")
+                print("Vous devez indiquer un nombre d'occurrences minimum et maximum")
         else:
-            print("Vous devez seulement indiquer un nombre d'occurence minimum et maximum")
+            print("Vous devez seulement indiquer un nombre d'occurrences minimum et maximum")
     else:
-        print("Vous devez indiquer un nombre d'occurence minimal à rechercher")
+        print("Vous devez indiquer un nombre d'occurrences minimal à rechercher")
 
 def top_mots(mots_cles, correspondances):
     dico = Traitement.tri_mots_decroissant(correspondances)
@@ -233,7 +233,7 @@ def top_mots(mots_cles, correspondances):
             try:
                 top = int(mots_cles[0])
                 if top <= 0:
-                    print("Erreur, le nombre maximum d'occurence doit être un entier supérieur ou égale à 1")
+                    print("Erreur, le nombre maximum d'occurrences doit être un entier supérieur ou égal à 1")
                     return
                 if top > len(dico.keys()):
                     print("La playlist contient seulement " + str(len(dico.keys())) + " mot(s)")
@@ -284,7 +284,7 @@ def main():
     playlist_2021_en = manager_en.load()
     playlist_2021_en_top_x = charger_chansons(playlist_2021_en, x)
     
-    print("\n=====OCCURENCES DES MOTS DANS LES CHANSONS=====")
+    print("\n=====OCCURRENCES DES MOTS DANS LES CHANSONS=====")
     couleurs_fr = Traitement.choisir_couleurs(playlist_2021_fr_top_x.get_chansons().keys())
     couleurs_en = Traitement.choisir_couleurs(playlist_2021_en_top_x.get_chansons().keys())
     print(f"=>TOP {x} des chansons de la Playlist Française")

@@ -6,15 +6,21 @@
 
 import lyricsgenius as lg
 
+# Token utilisé pour se connecter à l'api Genius
 client_access_token = 'GqeDZjpAgJF8OBh69761Ju26cQFz0WuXtI8LkH_vxfnU-CIO-ZqMA4ehIgWeFaKK'
 
+# Retourne des chansons hébergées sur Genius,
+# en fonction d'un titre et d'un nom d'artiste
 def searchLyric(genius, name, artist):
     return genius.search_song(title=name, artist=artist)
 
+# Permet de trouver les paroles d'une chanson idisponible sur Genius
+# (en fonction de son titre et de son artiste)
 def getLyric(name, artist):
     genius = lg.Genius(client_access_token, skip_non_songs=True, excluded_terms=["(Remix)", "(Live)"], remove_section_headers=True)
     searchLyric(genius, name, artist)      
 
+# Retourne un dictionnaire contenant les paroles de chansons
 def getLyrics(dico):
     genius = lg.Genius(client_access_token, skip_non_songs=True, excluded_terms=["(Remix)", "(Live)"], remove_section_headers=True)
     i = 0

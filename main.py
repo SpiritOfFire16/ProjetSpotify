@@ -69,6 +69,20 @@ def affichage_regles():
     print("Remarque : Il est possible d'ajouter plusieurs <termes> les uns à la suite des autre, par exemple on peut ecrire :")
     print(" occ/fr/many/money/beautiful")
     print("")
+    
+    print("COMMANDE 4 : sup, inf et supinf")
+    print("Ecrivez : sup/<langue>/<nombre>")
+    print("Ecrivez : inf/<langue>/<nombre>")
+    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
+    print("Avec : <nombre> devant prendre les valeurs d'un entier strictement positif")
+    print("sup = Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est supérieur ou égal au nombre donné par l'utilisateur")
+    print("inf = Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est inférieur ou égal au nombre donné par l'utilisateur")
+    print("Ecrivez : supinf/<langue>/<nombre1>/<nombre2>")
+    print("Avec : <nombre1> (borne inférieure) et <nombre2> (borne supérieure) devant prendre les valeurs d'un entier strictement positif")
+    print("supinf = Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est supérieur ou égal à <nombre1> et est inférieur ou égal à <nombre2> donné par l'utilisateur")
+    print("")
+    
+    """
     print("COMMANDE 4 : sup, inf et supinf")
     print("Ecrivez : sup/<langue>/<nombre>")
     print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
@@ -83,6 +97,8 @@ def affichage_regles():
     print("Avec : <nombre1> (borne inférieure) et <nombre2> (borne supérieure) devant prendre les valeurs d'un entier strictement positif")
     print("Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est supérieur ou égal à <nombre1> et est inférieur ou égal à <nombre2> donné par l'utilisateur")
     print("")
+    """
+    
     print("COMMANDE 5 : top")
     print("Ecrivez : top/<langue>/<nombre>")
     print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
@@ -92,7 +108,7 @@ def affichage_regles():
     print("COMMANDE 6 : -1")
     print("Permet de quitter le programme")
 
-
+# Création de graphe(s) en fonction des paramètres renseignés
 def creation_graphe(mots_cles, graphe, langue, manager, playlist_2021_top_x, couleurs):
     if "ALL SONGS" in mots_cles:
         graphe.affichage("chansons_" + langue + ".html")
@@ -108,6 +124,8 @@ def creation_graphe(mots_cles, graphe, langue, manager, playlist_2021_top_x, cou
         else:
             print("Erreur mots non trouvés")
 
+# Permet d'indiquer la présence d'un mot dans une ou plusieurs chansons
+# ainsi que son nombre total d'occurrences
 def nb_occurences_mots(mots_cles, correspondances):
     if len(mots_cles) > 0:
         if "ALL WORDS" in mots_cles:
@@ -146,7 +164,8 @@ def nb_occurences_mots(mots_cles, correspondances):
     else:
         print("Erreur, vous devez specifier un terme")
         
-
+# Permet de rechercher la présence d'un mot et son nombre d'occurrences dans une chanson
+# en fonction d'une borne (nombre d'occurrences maximal souhaité)
 def inf_mots(mots_cles, correspondances):
     dico = Traitement.tri_mots_croissant(correspondances)
     if len(mots_cles) > 0:
@@ -171,7 +190,9 @@ def inf_mots(mots_cles, correspondances):
             print("Vous devez seulement indiquer un nombre d'occurrences maximum")
     else:
         print("Vous devez indiquer un nombre d'occurrences maximal à rechercher")
-            
+
+# Permet de rechercher la présence d'un mot et son nombre d'occurrences dans une chanson
+# en fonction d'une borne (nombre d'occurrences minimal souhaité)            
 def sup_mots(mots_cles, correspondances):
     dico = Traitement.tri_mots_decroissant(correspondances)
     if len(mots_cles) > 0:
@@ -197,6 +218,8 @@ def sup_mots(mots_cles, correspondances):
     else:
         print("Vous devez indiquer un nombre d'occurrences minimal à rechercher")
 
+# Permet de rechercher la présence d'un mot et son nombre d'occurrences dans une chanson
+# entre deux bornes (nombre d'occurrences minimal et maximal souhaité) 
 def supinf_mots(mots_cles, correspondances):
     dico = Traitement.tri_mots_croissant(correspondances)
     if len(mots_cles) > 0:
@@ -226,6 +249,7 @@ def supinf_mots(mots_cles, correspondances):
     else:
         print("Vous devez indiquer un nombre d'occurrences minimal à rechercher")
 
+# Permet de trouver un top de mots d'une playlist en fonction d'un nombre indiqué 
 def top_mots(mots_cles, correspondances):
     dico = Traitement.tri_mots_decroissant(correspondances)
     if len(mots_cles) > 0:
@@ -253,14 +277,11 @@ def top_mots(mots_cles, correspondances):
     else:
         print("Vous devez indiquer un nombre correspondant au top des mots présents dans la playlist")
        
-
+########################### Lancement du programme principal ###########################
 def main():
-    cwd = os.getcwd()
-    path_fr = cwd + "\\save_playlist_fr.pkl"
-    path_en = cwd + "\\save_playlist_en.pkl"
-    manager_fr = ManagerPlaylist(path_fr)
-    manager_en = ManagerPlaylist(path_en)
     
+    # Récupération grâces à nos classes Spotipy et Genius des deux playlists utilisées dans le projet
+    # Et sauvegarde de ces dernières localement dans deux fichiers (format pkl)
     """
     print("==================PLAYLIST FRANCAISE==================")
     #playlist_id_fr = '2IgPkhcHbgQ4s4PdCxljAx'
@@ -277,8 +298,18 @@ def main():
     playlist_2021_en = create_playlist(dico_2021_lyrics_en, "en", len(dico_2021_lyrics_en.keys()))
     manager_en.save(playlist_2021_en)
     """
+    # Stockage des deux playlists avec notre classe ManagerPlaylist
+    cwd = os.getcwd()
+    path_fr = cwd + "\\save_playlist_fr.pkl"
+    path_en = cwd + "\\save_playlist_en.pkl"
+    manager_fr = ManagerPlaylist(path_fr)
+    manager_en = ManagerPlaylist(path_en)
     
+    # Nombre maximum de chansons choisies dans chaque playlist
+    # Nous choisissons de prendre les 15 premières chansons de la playlist fr
+    # et les 15 premières de la playlist en
     x = 15
+    # Chargement des chansons
     playlist_2021_fr = manager_fr.load()
     playlist_2021_fr_top_x = charger_chansons(playlist_2021_fr, x)
     playlist_2021_en = manager_en.load()
@@ -295,12 +326,13 @@ def main():
     graphe_fr = Graphe_Coocurence(aretes_fr, couleurs_fr)
     graphe_en = Graphe_Coocurence(aretes_en, couleurs_en)
     
+    # Intéractions homme-machine
     requete = ""
     while(requete != "-1"):
         requete = input("Entrez le nom d'une commande (ou entrez 'menu' pour en savoir plus) : ")
         if requete != "-1":
             mots_cles = requete.split("/")
-            if mots_cles[0] == "graph":
+            if mots_cles[0] == "graphe":
                 if len(mots_cles) > 1:
                     if mots_cles[1] == "fr":
                         creation_graphe(mots_cles[2:], graphe_fr, "fr", manager_fr, playlist_2021_fr_top_x, couleurs_fr)

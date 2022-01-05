@@ -5,7 +5,6 @@
 """
 
 from pyvis.network import Network
-import pandas as pd
 
 class Graphe_Coocurence():
     

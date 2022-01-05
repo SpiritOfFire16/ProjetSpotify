@@ -4,8 +4,6 @@
 
 """
 
-from chanson import Chanson
-from graphe import Graphe_Coocurence
 import pickle
 
 class ManagerPlaylist():

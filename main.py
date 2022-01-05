@@ -102,7 +102,6 @@ def creation_graphe(mots_cles, graphe, langue, manager, playlist_2021_top_x, cou
         playlist = manager.creer_playlist(mots_cles, playlist_2021_top_x, graphe)
         if playlist.get_nb_chansons() > 0:                        
             aretes,correspondances_new = Traitement.cooccurrences(playlist)
-            Traitement.tri_mots(correspondances_new)
             graphe = Graphe_Coocurence(aretes, couleurs)
             mots_cles = "_".join(mots_cles)
             graphe.affichage(f"chansons_{mots_cles}.html")
@@ -113,6 +112,7 @@ def nb_occurences_mots(mots_cles, correspondances):
     if len(mots_cles) > 0:
         if "ALL WORDS" in mots_cles:
             for mot in correspondances.columns:
+                total = correspondances[mot].sum()
                 sous_df = correspondances[correspondances[mot] > 0]
                 chansons = sous_df.index
                 if len(chansons) == 1 :
@@ -123,11 +123,13 @@ def nb_occurences_mots(mots_cles, correspondances):
                     t = titre[len("chanson "):]
                     occ = sous_df.loc[titre][mot]
                     print(f"{t} : {occ} fois ")
+                print(f"Nombre total d'occurences : {total}\n")
             while "ALL WORDS" in mots_cles:
                 mots_cles.remove("ALL WORDS")
         
         for mot in mots_cles:
             if mot in correspondances.columns:
+                total = correspondances[mot].sum()
                 sous_df = correspondances[correspondances[mot] > 0]
                 chansons = sous_df.index
                 if len(chansons) == 1 :
@@ -138,6 +140,7 @@ def nb_occurences_mots(mots_cles, correspondances):
                     t = titre[len("chanson "):]
                     occ = sous_df.loc[titre][mot]
                     print(f"{t} : {occ} fois ")
+                print(f"Nombre total d'occurences : {total}\n")
             else:
                 print(f"Le mot {mot} n'est pas contenue dans la playlist")
     else:

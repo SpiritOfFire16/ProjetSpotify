@@ -42,20 +42,215 @@ def charger_chansons(playlist, maximum):
             i = i+1
     return playlist_chargee
 
-def affichage_regles(x):
+def affichage_regles():
     print("\n\n --------------------------------------------------------------------")
     print("|                              IMPORTANT A LIRE                      |")
     print("--------------------------------------------------------------------\n")
-    print("Langue = fr ou en")
-    print("Terme1, Terme2, ... = Titre d'une chanson ou d'un mot d'une chanson")
-    print("Si Terme1 = Titre d'une chanson : alors on affiche le graphe de cette chanson")
-    print("Si Terme1 = Mot d'une chanson, alors on affiche le graphe des chansons contenant ce mot")
-    print("Si un des termes = ALL SONGS alors on affiche le graphe contenant le top {x} des chansons")
-    print("Exemples de commandes :")
-    print(f"<langue/ALL SONGS> permet d'afficher le graphe contenant le top {x} des chansons françaises traduites en anglais")
-    print(f"<langue/Terme1/Terme2/... permet d'afficher le graphe contenant les titres des chansons souhaitées")
-    print("-1 pour quitter le programme")
-    
+    print("Il existe 6 types de commandes possible :")
+    print("COMMANDE 1 : menu")
+    print("Permet d'afficher les informations concernant les différentes commandes réalisable.")
+    print("")
+    print("COMMANDE 2 : graph")
+    print("Ecrivez : graph/<langue>/<terme1>...")
+    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
+    print("Avec : <terme1> pouvant prendre les valeurs :")
+    print(" -> ALL SONGS : afin d'afficher le graphe formé de tout les mots présents dans les chansons de la playlist")
+    print(" -> Le titre d'une chanson : afin d'afficher le graphe formé de tout les mots de la chanson")
+    print(" -> Un mot : afin d'afficher le graphe formé de tout les mot des chansons qui contiennent le mot choisit")
+    print("Remarque : Il est possible d'ajouter plusieur <termes> les uns à la suite des autre, par exemple on peut ecrire :")
+    print(" graph/en/ALL SONGS/love/hey")
+    print("")
+    print("COMMANDE 3 : occ")
+    print("Ecrivez : occ/<langue>/<terme1>...")
+    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
+    print("Avec : <terme1> pouvant prendre les valeurs :")
+    print(" -> ALL WORDS : afin d'afficher l'ensemble des mots presents dans la playlist choisit avec les titres des chansons dans lesquelles ils apparaissent ainsi que leur nombre d'occurence par chanson.")
+    print(" -> Un mot : afin d'afficher les titres des chansons dans lesquelles il apparait ainsi que son nombre d'occurence par chanson. ")
+    print("Remarque : Il est possible d'ajouter plusieur <termes> les uns à la suite des autre, par exemple on peut ecrire :")
+    print(" occ/fr/many/money/beautiful")
+    print("")
+    print("COMMANDE 4 : sup, inf et supinf")
+    print("Ecrivez : sup/<langue>/<nombre>")
+    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
+    print("Avec : <nombre> devant prendre les valeurs d'un entier positif strictement")
+    print("Cette commande affiche l'ensemble des mot de la playlist choisie dont le nombre d'occurences est supérieur ou égale au nombre donné par l'utilisateur")
+    print("Ecrivez : inf/<langue>/<nombre>")
+    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
+    print("Avec : <nombre> devant prendre les valeurs d'un entier positif strictement")
+    print("Cette commande affiche l'ensemble des mot de la playlist choisie dont le nombre d'occurences est inférieur ou égale au nombre donné par l'utilisateur")
+    print("Ecrivez : supinf/<langue>/<nombre1>/<nombre2>")
+    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
+    print("Avec : <nombre1> (borne inférieure) et <nombre2> (borne supérieure) devant prendre les valeurs d'un entier positif strictement")
+    print("Cette commande affiche l'ensemble des mot de la playlist choisie dont le nombre d'occurences est supérieur ou égale à <nombre1> et est inférieur ou égale à <nombre2> donné par l'utilisateur")
+    print("")
+    print("COMMANDE 5 : top")
+    print("Ecrivez : top/<langue>/<nombre>")
+    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
+    print("Avec : <nombre> devant prendre les valeurs d'un entier positif strictement")
+    print("Cette commande affiche le top x des mot de la playlist choisie, avec x correspondant à <nombre> donné par l'utilisateur")
+    print("")
+    print("COMMANDE 6 : -1")
+    print("Permet de quitter le programme")
+
+
+def creation_graphe(mots_cles, graphe, langue, manager, playlist_2021_top_x, couleurs):
+    if "ALL SONGS" in mots_cles:
+        graphe.affichage("chansons_" + langue + ".html")
+        while "ALL SONGS" in mots_cles:
+            mots_cles.remove("ALL SONGS")
+    if len(mots_cles) > 0:
+        playlist = manager.creer_playlist(mots_cles, playlist_2021_top_x, graphe)
+        if playlist.get_nb_chansons() > 0:                        
+            aretes,correspondances_new = Traitement.cooccurrences(playlist)
+            Traitement.tri_mots(correspondances_new)
+            graphe = Graphe_Coocurence(aretes, couleurs)
+            mots_cles = "_".join(mots_cles)
+            graphe.affichage(f"chansons_{mots_cles}.html")
+        else:
+            print("Erreur mots non trouvés")
+
+def nb_occurences_mots(mots_cles, correspondances):
+    if len(mots_cles) > 0:
+        if "ALL WORDS" in mots_cles:
+            for mot in correspondances.columns:
+                sous_df = correspondances[correspondances[mot] > 0]
+                chansons = sous_df.index
+                if len(chansons) == 1 :
+                    print(f"Le mot {mot} est contenue dans la chanson :")
+                else:
+                    print(f"Le mot {mot} est contenue dans les chansons :")
+                for titre in chansons:
+                    t = titre[len("chanson "):]
+                    occ = sous_df.loc[titre][mot]
+                    print(f"{t} : {occ} fois ")
+            while "ALL WORDS" in mots_cles:
+                mots_cles.remove("ALL WORDS")
+        
+        for mot in mots_cles:
+            if mot in correspondances.columns:
+                sous_df = correspondances[correspondances[mot] > 0]
+                chansons = sous_df.index
+                if len(chansons) == 1 :
+                    print(f"Le mot {mot} est contenue dans la chanson :")
+                else:
+                    print(f"Le mot {mot} est contenue dans les chansons :")
+                for titre in chansons:
+                    t = titre[len("chanson "):]
+                    occ = sous_df.loc[titre][mot]
+                    print(f"{t} : {occ} fois ")
+            else:
+                print(f"Le mot {mot} n'est pas contenue dans la playlist")
+    else:
+        print("Erreur, vous devez specifier un terme")
+        
+
+def inf_mots(mots_cles, correspondances):
+    dico = Traitement.tri_mots_croissant(correspondances)
+    if len(mots_cles) > 0:
+        if len(mots_cles) == 1:
+            try:
+                maximum = int(mots_cles[0])
+                if maximum <= 0:
+                    print("Erreur, le nombre maximum d'occurence doit être un entier supérieur ou égale à 1")
+                    return
+                cpt = 0
+                for k,v in dico.items():
+                    if v <= maximum:
+                        print(f"{k} : {v} fois")
+                        cpt = cpt+1
+                    else:
+                        break
+                if cpt == 0:
+                    print("Pas de mot trouvé pour ce nombre maximum d'occurences")
+            except:
+                print("Vous devez indiquer un nombre d'occurence maximum")
+        else:
+            print("Vous devez seulement indiquer un nombre d'occurence maximum")
+    else:
+        print("Vous devez indiquer un nombre d'occurence maximal à rechercher")
+            
+def sup_mots(mots_cles, correspondances):
+    dico = Traitement.tri_mots_decroissant(correspondances)
+    if len(mots_cles) > 0:
+        if len(mots_cles) == 1:
+            try:
+                minimum = int(mots_cles[0])
+                if minimum <= 0:
+                    print("Erreur, le nombre minimum d'occurence doit être un entier supérieur ou égale à 1")
+                    return
+                cpt = 0
+                for k,v in dico.items():
+                    if v >= minimum:
+                        print(f"{k} : {v} fois")
+                        cpt = cpt+1
+                    else:
+                        break
+                if cpt == 0:
+                    print("Pas de mot trouvé pour ce nombre minimum d'occurences")
+            except:
+                print("Vous devez indiquer un nombre d'occurence minimum")
+        else:
+            print("Vous devez seulement indiquer un nombre d'occurence minimum")
+    else:
+        print("Vous devez indiquer un nombre d'occurence minimal à rechercher")
+
+def supinf_mots(mots_cles, correspondances):
+    dico = Traitement.tri_mots_croissant(correspondances)
+    if len(mots_cles) > 0:
+        if len(mots_cles) == 2:
+            try:
+                if int(mots_cles[0]) <= int(mots_cles[1]):
+                    minimum = int(mots_cles[0])
+                    maximum = int(mots_cles[1])
+                    if minimum <= 0:
+                        print("Erreur, le nombre minimum d'occurence doit être un entier supérieur ou égale à 1")
+                        return
+                    cpt = 0
+                    for k,v in dico.items():
+                        if v >= minimum and v <= maximum:
+                            print(f"{k} : {v} fois")
+                            cpt = cpt+1
+                        if v > maximum:
+                            break
+                    if cpt == 0:
+                        print("Pas de mot trouvé pour ces nombres minimum et maximum d'occurences")
+                else:
+                    print("Erreur la valeur minimale doit être inférieure ou égale à la valeur maximale")
+            except:
+                print("Vous devez indiquer un nombre d'occurence minimum et maximum")
+        else:
+            print("Vous devez seulement indiquer un nombre d'occurence minimum et maximum")
+    else:
+        print("Vous devez indiquer un nombre d'occurence minimal à rechercher")
+
+def top_mots(mots_cles, correspondances):
+    dico = Traitement.tri_mots_decroissant(correspondances)
+    if len(mots_cles) > 0:
+        if len(mots_cles) == 1:
+            try:
+                top = int(mots_cles[0])
+                if top <= 0:
+                    print("Erreur, le nombre maximum d'occurence doit être un entier supérieur ou égale à 1")
+                    return
+                if top > len(dico.keys()):
+                    print("La playlist contient seulement " + str(len(dico.keys())) + " mot(s)")
+                cpt = 0
+                for k,v in dico.items():
+                    if cpt < top:
+                        print(f"{k} : {v} fois")
+                        cpt = cpt+1
+                    else:
+                        break
+                if cpt == 0:
+                    print("Pas de mot trouvé")
+            except:
+                print("Vous devez indiquer un nombre correspondant au top des mots présents dans la playlist")
+        else:
+            print("Vous devez seulement indiquer un nombre correspondant au top des mots présents dans la playlist")
+    else:
+        print("Vous devez indiquer un nombre correspondant au top des mots présents dans la playlist")
+       
+
 def main():
     cwd = os.getcwd()
     path_fr = cwd + "\\save_playlist_fr.pkl"
@@ -80,7 +275,7 @@ def main():
     manager_en.save(playlist_2021_en)
     """
     
-    x = 10
+    x = 15
     playlist_2021_fr = manager_fr.load()
     playlist_2021_fr_top_x = charger_chansons(playlist_2021_fr, x)
     playlist_2021_en = manager_en.load()
@@ -89,51 +284,83 @@ def main():
     print("\n=====OCCURENCES DES MOTS DANS LES CHANSONS=====")
     couleurs_fr = Traitement.choisir_couleurs(playlist_2021_fr_top_x.get_chansons().keys())
     couleurs_en = Traitement.choisir_couleurs(playlist_2021_en_top_x.get_chansons().keys())
-    print(f"=>TOP {x} des chansons de la PLaylist Française")
-    aretes_fr = Traitement.cooccurrences(playlist_2021_fr_top_x)
-    print(f"\n\n=>TOP {x} des chansons de la PLaylist Anglaise")
-    aretes_en = Traitement.cooccurrences(playlist_2021_en_top_x)
+    print(f"=>TOP {x} des chansons de la Playlist Française")
+    aretes_fr,correspondances_fr = Traitement.cooccurrences(playlist_2021_fr_top_x)
+    print(f"\n\n=>TOP {x} des chansons de la Playlist Anglaise")
+    aretes_en,correspondances_en = Traitement.cooccurrences(playlist_2021_en_top_x)
     
     graphe_fr = Graphe_Coocurence(aretes_fr, couleurs_fr)
     graphe_en = Graphe_Coocurence(aretes_en, couleurs_en)
     
     requete = ""
-    affichage_regles(x)
     while(requete != "-1"):
-        requete = input("Entrez le nom d'un noeud : ")
+        requete = input("Entrez le nom d'une commande (ou entrez 'menu' pour en savoir plus) : ")
         if requete != "-1":
             mots_cles = requete.split("/")
-            if mots_cles[0] == "fr":
-                if "ALL SONGS" in mots_cles:
-                    graphe_fr.affichage("chansons_fr.html")
-                    while "ALL SONGS" in mots_cles:
-                        mots_cles.remove("ALL SONGS")
+            if mots_cles[0] == "graph":
                 if len(mots_cles) > 1:
-                    playlist = manager_fr.creer_playlist(mots_cles[1:], playlist_2021_fr_top_x, graphe_fr)
-                    if playlist.get_nb_chansons() > 0:                        
-                        aretes = Traitement.cooccurrences(playlist)
-                        graphe = Graphe_Coocurence(aretes, couleurs_fr)
-                        mots_cles = "_".join(mots_cles)
-                        graphe.affichage(f"chansons_{mots_cles}.html")
+                    if mots_cles[1] == "fr":
+                        creation_graphe(mots_cles[2:], graphe_fr, "fr", manager_fr, playlist_2021_fr_top_x, couleurs_fr)
+                    elif mots_cles[1] == "en":
+                        creation_graphe(mots_cles[2:], graphe_en, "en", manager_en, playlist_2021_en_top_x, couleurs_en)
                     else:
-                        print("Erreur mots non trouvés")
-            
-            elif mots_cles[0] == "en":
-                if "ALL SONGS" in mots_cles:
-                    graphe_en.affichage("chansons_en.html")
-                    while "ALL SONGS" in mots_cles:
-                        mots_cles.remove("ALL SONGS")
+                        print("Erreur langue non detectée.")
+                else:
+                    print("Erreur, vous devez spécifier une langue")
+            elif mots_cles[0] == "occ":
                 if len(mots_cles) > 1:
-                    playlist = manager_en.creer_playlist(mots_cles[1:], playlist_2021_en_top_x, graphe_en)
-                    if playlist.get_nb_chansons() > 0:
-                        aretes = Traitement.cooccurrences(playlist)
-                        graphe = Graphe_Coocurence(aretes, couleurs_en)
-                        mots_cles = "_".join(mots_cles)
-                        graphe.affichage(f"chansons_{mots_cles}.html")
+                    if mots_cles[1] == "fr":
+                        nb_occurences_mots(mots_cles[2:], correspondances_fr)
+                    elif mots_cles[1] == "en":
+                        nb_occurences_mots(mots_cles[2:], correspondances_en)
                     else:
-                        print("Erreur mots non trouvés")
+                        print("Erreur langue non detectée.")
+                else:
+                    print("Erreur, vous devez spécifier une langue")
+            elif mots_cles[0] == "inf":
+                if len(mots_cles) > 1:
+                    if mots_cles[1] == "fr":
+                        inf_mots(mots_cles[2:], correspondances_fr)
+                    elif mots_cles[1] == "en":
+                        inf_mots(mots_cles[2:], correspondances_en)
+                    else:
+                        print("Erreur langue non detectée.")
+                else:
+                    print("Erreur, vous devez spécifier une langue")
+            elif mots_cles[0] == "sup":
+                if len(mots_cles) > 1:
+                    if mots_cles[1] == "fr":
+                        sup_mots(mots_cles[2:], correspondances_fr)
+                    elif mots_cles[1] == "en":
+                        sup_mots(mots_cles[2:], correspondances_en)
+                    else:
+                        print("Erreur langue non detectée.")
+                else:
+                    print("Erreur, vous devez spécifier une langue")
+            elif mots_cles[0] == "supinf":
+                if len(mots_cles) > 1:
+                    if mots_cles[1] == "fr":
+                        supinf_mots(mots_cles[2:], correspondances_fr)
+                    elif mots_cles[1] == "en":
+                        supinf_mots(mots_cles[2:], correspondances_en)
+                    else:
+                        print("Erreur langue non detectée.")
+                else:
+                    print("Erreur, vous devez spécifier une langue")
+            elif mots_cles[0] == "top":
+                if len(mots_cles) > 1:
+                    if mots_cles[1] == "fr":
+                        top_mots(mots_cles[2:], correspondances_fr)
+                    elif mots_cles[1] == "en":
+                        top_mots(mots_cles[2:], correspondances_en)
+                    else:
+                        print("Erreur langue non detectée.")
+                else:
+                    print("Erreur, vous devez spécifier une langue")
+            elif mots_cles[0] == "menu":
+                affichage_regles()
             else:
-                print("Erreur langue non detectée.")
+                print("Erreur commande non detectée.")
         else:
             print("Programme terminé.")
     

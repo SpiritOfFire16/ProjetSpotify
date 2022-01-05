@@ -69,6 +69,21 @@ class Traitement():
                 aretes = aretes.append({"Titre_chanson":titre,"Mot":mot,"Nb_occurences":nb_occurrence}, ignore_index=True)
         #print(len(occurrences_mots.keys()))
         print(correspondances)
-        return aretes
-        
+        return aretes,correspondances
+    
+    @staticmethod
+    def tri_mots_croissant(df):
+        occurence = {}
+        for c in df.columns:
+            occurence[c] = df[c].sum()
+        dico_tri = {k: v for k, v in sorted(occurence.items(), key=lambda item: item[1])}
+        return dico_tri            
+ 
+    @staticmethod
+    def tri_mots_decroissant(df):
+        occurence = {}
+        for c in df.columns:
+            occurence[c] = df[c].sum()
+        dico_tri = {k: v for k, v in sorted(occurence.items(), key=lambda item: item[1], reverse=True)}
+        return dico_tri
             

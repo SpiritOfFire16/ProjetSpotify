@@ -17,7 +17,7 @@ from traitement import Traitement
 
 from graphe import Graphe_Coocurence
 
-
+# Création d'une playlist et la retourne
 def create_playlist(dico_lyrics, langue, nb_chanson_max):
     playlist = Playlist()
     for k,v in dico_lyrics.items():
@@ -31,6 +31,8 @@ def create_playlist(dico_lyrics, langue, nb_chanson_max):
             print(f"Pas de parole pour la chanson {k}")
     return playlist
 
+# Chargement des chansons d'une playlist, en fonction d'un maximum de chansons déterminé en paramètre
+# Retourne la playlist avec le nombre de chansons souhaitées
 def charger_chansons(playlist, maximum):
     playlist_chargee = Playlist()
     i = 0
@@ -42,6 +44,7 @@ def charger_chansons(playlist, maximum):
             i = i+1
     return playlist_chargee
 
+# Affichage textuelle des commandes possibles pour l'utilisateur 
 def affichage_regles():
     print("\n\n --------------------------------------------------------------------")
     print("|                              IMPORTANT A LIRE                      |")
@@ -80,25 +83,7 @@ def affichage_regles():
     print("Ecrivez : supinf/<langue>/<nombre1>/<nombre2>")
     print("Avec : <nombre1> (borne inférieure) et <nombre2> (borne supérieure) devant prendre les valeurs d'un entier strictement positif")
     print("supinf = Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est supérieur ou égal à <nombre1> et est inférieur ou égal à <nombre2> donné par l'utilisateur")
-    print("")
-    
-    """
-    print("COMMANDE 4 : sup, inf et supinf")
-    print("Ecrivez : sup/<langue>/<nombre>")
-    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
-    print("Avec : <nombre> devant prendre les valeurs d'un entier strictement positif")
-    print("Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est supérieur ou égal au nombre donné par l'utilisateur")
-    print("Ecrivez : inf/<langue>/<nombre>")
-    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
-    print("Avec : <nombre> devant prendre les valeurs d'un entier strictement positif")
-    print("Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est inférieur ou égal au nombre donné par l'utilisateur")
-    print("Ecrivez : supinf/<langue>/<nombre1>/<nombre2>")
-    print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
-    print("Avec : <nombre1> (borne inférieure) et <nombre2> (borne supérieure) devant prendre les valeurs d'un entier strictement positif")
-    print("Cette commande affiche l'ensemble des mots de la playlist choisie dont le nombre d'occurrences est supérieur ou égal à <nombre1> et est inférieur ou égal à <nombre2> donné par l'utilisateur")
-    print("")
-    """
-    
+    print("")    
     print("COMMANDE 5 : top")
     print("Ecrivez : top/<langue>/<nombre>")
     print("Avec : <langue> pouvant prendre les valeurs 'fr' ou 'en'")
@@ -315,18 +300,22 @@ def main():
     playlist_2021_en = manager_en.load()
     playlist_2021_en_top_x = charger_chansons(playlist_2021_en, x)
     
+    # Affiche le nombre d'occurrences des mots dans les chansons pour chacune des playlists
     print("\n=====OCCURRENCES DES MOTS DANS LES CHANSONS=====")
     couleurs_fr = Traitement.choisir_couleurs(playlist_2021_fr_top_x.get_chansons().keys())
     couleurs_en = Traitement.choisir_couleurs(playlist_2021_en_top_x.get_chansons().keys())
+    # Affiche le top 15 des chansons de la playlist fr
     print(f"=>TOP {x} des chansons de la Playlist Française")
     aretes_fr,correspondances_fr = Traitement.cooccurrences(playlist_2021_fr_top_x)
+    # Affiche le top 15 des chansons de la playlist en
     print(f"\n\n=>TOP {x} des chansons de la Playlist Anglaise")
     aretes_en,correspondances_en = Traitement.cooccurrences(playlist_2021_en_top_x)
     
+    # Affecte couleurs aux graphes
     graphe_fr = Graphe_Coocurence(aretes_fr, couleurs_fr)
     graphe_en = Graphe_Coocurence(aretes_en, couleurs_en)
     
-    # Intéractions homme-machine
+    # Intéractions homme-machine (interface textuelle)
     requete = ""
     while(requete != "-1"):
         requete = input("Entrez le nom d'une commande (ou entrez 'menu' pour en savoir plus) : ")

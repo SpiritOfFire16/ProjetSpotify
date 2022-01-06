@@ -6,8 +6,10 @@
 
 from pyvis.network import Network
 
+# Permet de créer et afficher un graphe
 class Graphe_Coocurence():
     
+    # Permet de créer le graphe : ajoute les noeuds, ajoute les arêtes, ajoute le nombre de voisins d'un noeud
     def preparation(self):
         for a in self.__aretes:
             self.__graphe.add_node(a[0], a[0], title="Type: Noeud<br>Titre: "+a[0], color=self.__couleurs[a[0]])
@@ -18,7 +20,8 @@ class Graphe_Coocurence():
             nb_voisins = len(voisins_map[node['id']])
             node['title'] += '<br>Nombre de voisins: '+ str(nb_voisins)
             node['value'] = nb_voisins
-            
+    
+    # Constructeur du graphe
     def __init__(self, aretes, couleurs):
         self.__graphe = Network(height='750px', width='100%', bgcolor='#222222', font_color='white')
         self.__graphe.barnes_hut()
@@ -29,10 +32,12 @@ class Graphe_Coocurence():
         self.__couleurs = couleurs
         self.preparation()
     
+    # Affichage 
     def affichage(self, name):
         self.__graphe.show(name)
         
         
+    # Retourne les titres de chansons d'un noeud ciblé
     def get_titres_chanson(self, id_noeud):
         id_noeud = id_noeud.lower()
         voisins_map = self.__graphe.get_adj_list()

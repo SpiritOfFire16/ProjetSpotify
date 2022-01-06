@@ -10,7 +10,7 @@ import re
 # Classe ChansonGenerator : permet de gérer l'instanciation des chansons
 class ChansonGenerator:
     # Permet de traduire les paroles d'une chanson selon la langue renseignée
-    # Nettoyage de certains termes qui sont présents par défault lors de la récupération
+    # Nettoyage de certains termes qui sont présents par défaut lors de la récupération
     # des paroles depuis Spotify.
     @staticmethod
     def translate(langue, paroles):
@@ -28,7 +28,7 @@ class ChansonGenerator:
             paroles = re.sub("urlcopopy|off1hare","",paroles)
             return GoogleTranslator(source='auto', target=langue).translate(paroles)
     
-    #Permet de créer des ChansonFR et des ChansonEN selon les paramètres renseignés
+    # Permet de créer des ChansonFR et des ChansonEN selon les paramètres renseignés
     @staticmethod
     def factory(langue, titre="", artiste=None, date="", paroles=""):
         if langue == "fr":

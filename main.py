@@ -306,8 +306,8 @@ def main():
     manager_en = ManagerPlaylist(path_en)
     
     # Nombre maximum de chansons choisies dans chaque playlist
-    # Nous choisissons de prendre les 15 premières chansons de la playlist fr
-    # et les 15 premières de la playlist en
+    # Nous choisissons de prendre les 15 premières chansons de la playlist fr 2021
+    # et les 15 premières de la playlist en 2021
     x = 15
     # Chargement des chansons
     playlist_2021_fr = manager_fr.load()

@@ -4,6 +4,11 @@
 
 """
 
+# Pour cette partie, nous nous sommes inspirés des sites disponibles aux adresses suivantes :
+# https://pypi.org/project/lyricsgenius/
+# https://towardsdatascience.com/song-lyrics-genius-api-dcc2819c29
+
+
 import lyricsgenius as lg
 
 # Token utilisé pour se connecter à l'api Genius

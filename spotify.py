@@ -4,6 +4,10 @@
 
 """
 
+# Pour cette partie, nous nous sommes inspirés du site disponible à l'adresse suivante :
+# https://medium.com/swlh/how-to-leverage-spotify-api-genius-lyrics-for-data-science-tasks-in-python-c36cdfb55cf3
+
+
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import time

@@ -7,7 +7,7 @@
 from pyvis.network import Network
 
 # Permet de créer et afficher un graphe
-class Graphe_Coocurence():
+class Graphe_Cooccurrence():
     
     # Permet de créer le graphe : ajoute les noeuds, ajoute les arêtes, ajoute le nombre de voisins d'un noeud
     def preparation(self):

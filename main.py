@@ -15,7 +15,7 @@ from playlist import ManagerPlaylist, Playlist
 
 from traitement import Traitement
 
-from graphe import Graphe_Coocurence
+from graphe import Graphe_Cooccurrence
 
 # Création d'une playlist et la retourne
 def create_playlist(dico_lyrics, langue, nb_chanson_max):
@@ -103,7 +103,7 @@ def creation_graphe(mots_cles, graphe, langue, manager, playlist_2021_top_x, cou
         playlist = manager.creer_playlist(mots_cles, playlist_2021_top_x, graphe)
         if playlist.get_nb_chansons() > 0:                        
             aretes,correspondances_new = Traitement.cooccurrences(playlist)
-            graphe = Graphe_Coocurence(aretes, couleurs)
+            graphe = Graphe_Cooccurrence(aretes, couleurs)
             mots_cles = "_".join(mots_cles)
             graphe.affichage(f"chansons_{mots_cles}.html")
         else:
@@ -312,8 +312,8 @@ def main():
     aretes_en,correspondances_en = Traitement.cooccurrences(playlist_2021_en_top_x)
     
     # Affecte couleurs aux graphes
-    graphe_fr = Graphe_Coocurence(aretes_fr, couleurs_fr)
-    graphe_en = Graphe_Coocurence(aretes_en, couleurs_en)
+    graphe_fr = Graphe_Cooccurrence(aretes_fr, couleurs_fr)
+    graphe_en = Graphe_Cooccurrence(aretes_en, couleurs_en)
     
     # Intéractions homme-machine (interface textuelle)
     requete = ""

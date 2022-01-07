@@ -267,6 +267,9 @@ def main():
     
     # Récupération grâces à nos classes Spotipy et Genius des deux playlists utilisées dans le projet
     # Et sauvegarde de ces dernières localement dans deux fichiers (format pkl)
+    # La récupération s'effectue une seule fois au premier lancement du programme,
+    # puis nous l'avons commentée par la suite car il est plus optimisé de charger
+    # les fichiers que de relancer une récupération avec les API
     """
     print("==================PLAYLIST FRANCAISE==================")
     #playlist_id_fr = '2IgPkhcHbgQ4s4PdCxljAx'
